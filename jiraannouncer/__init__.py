@@ -13,7 +13,9 @@ def main(global_config, **settings):
     config.scan()
     return config.make_wsgi_app()
 
-def webhook_updates(reason=None):
-  # ...gets executed every 10 minutes with an optional reason...
-def handle_request_often(request):
-  request.registry.scheduler.add_date_job(webhook_updates, minutes=1)
+# def webhook_updates(reason=None):
+    # ...gets executed every 10 minutes with an optional reason...
+
+
+# def handle_request_often(request):
+#    request.registry.scheduler.add_date_job(webhook_updates, minutes=1)

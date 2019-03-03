@@ -103,14 +103,14 @@ def jira(request, LASTMESSAGE):
     elif request_type == 'jira:issue_updated':
         if "OV-" in issue_key or "DRR-" in issue_key:
             if request['user']['displayName'] == "Fuel Rats Automation":
-                message = ("Fuel Rats Automation cleanup done.")
+                message = "Fuel Rats Automation cleanup done."
                 domessage = False
                 this_kennel = str(random.random())
-                kfile = open("/tmp/kennel.p", "w")
+                kfile = open("kennel.p", "w")
                 kfile.write(this_kennel)
                 kfile.close()
                 time.sleep(2)
-                kfile2 = open("/tmp/kennel.p", "r")
+                kfile2 = open("kennel.p", "r")
                 if kfile2.readline() == this_kennel:
                     domessage = True
                 else:
@@ -294,11 +294,11 @@ def github(event, data, LASTMESSAGE):
                        request['repository']['name'])
             domessage = False
             this_kennel = str(random.random())
-            kfile = open("/tmp/kennel.p", "w")
+            kfile = open("kennel.p", "w")
             kfile.write(this_kennel)
             kfile.close()
             time.sleep(2)
-            kfile2 = open("/tmp/kennel.p", "r")
+            kfile2 = open("kennel.p", "r")
             if kfile2.readline() == this_kennel:
                 domessage = True
             else:
@@ -455,8 +455,16 @@ def send(channel, message, msgshort, PROXY):
 @view_config(route_name='announce', renderer="json")
 def my_view(request):
     PROXY = ServerProxy("https://irc.eu.fuelrats.com:6080/xmlrpc")
-    LASTMESSAGE = {'type': " ", 'key': " ", 'time': 0, 'full': " "}
     SHORTMSG = "The Quick Brown Fox..."
+    try:
+        LASTMESSAGE = pickle.load(open("lastmessage.p", "rb"))
+        logprint("Pickle loaded")
+        if not all(KEY in LASTMESSAGE for KEY in ('type', 'key', 'time', 'full')):
+            logprint("Error loading pickle")
+            LASTMESSAGE = {'type': " ", 'key': " ", 'time': 0, 'full': " "}
+    except:
+        logprint("Error loading pickle")
+        LASTMESSAGE = {'type': " ", 'key': " ", 'time': 0, 'full': " "}
     try:
         send("#announcerdev", "Pyramid Announcer got a hit!", SHORTMSG, PROXY)
         if request.params == "":
