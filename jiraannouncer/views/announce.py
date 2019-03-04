@@ -221,6 +221,7 @@ def jira(request, LASTMESSAGE):
 
 def github(event, data, LASTMESSAGE):
     """Handle GitHub events."""
+    PROXY = ServerProxy("https://irc.eu.fuelrats.com:6080/xmlrpc")
     try:
         request = simplejson.loads(data)
     except:
@@ -351,7 +352,7 @@ def github(event, data, LASTMESSAGE):
     else:
         if domessage:
             for channel in channels:
-                send(channel, "[\x0315GitHub\x03] " + message, msgshort)
+                send(channel, "[\x0315GitHub\x03] " + message, msgshort, PROXY)
 
 
 def travis(repo, data, LASTMESSAGE):
