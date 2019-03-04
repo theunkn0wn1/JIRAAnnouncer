@@ -471,14 +471,14 @@ def my_view(request):
         if request.params == "":
             return {'content': 'Input was empty!'}
         inputstr = simplejson.loads(request.body)
-        if "HTTP_X_GITHUB_EVENT" in request.headers:
+        if "X-GitHub-Event" in request.headers:
             try:
-                github(os.environ['HTTP_X_GITHUB_EVENT'], request.body, LASTMESSAGE)
+                github(request.headers['X-GitHub-Event'], request.body, LASTMESSAGE)
             except:
                 print("Github event parsing failed!")
                 return {'content': 'Failed to parse Github event!'}
             return {'content': 'Got a Github event!'}
-        elif "HTTP_TRAVIS_REPO_SLUG" in request.headers:
+        elif "TRAVIS_REPO_SLUG" in request.headers:
             return {'content': 'Got a Travis event!'}
         try:
             inputstr = simplejson.loads(request.body)
