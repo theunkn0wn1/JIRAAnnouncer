@@ -1,11 +1,10 @@
-import random
 import time
 import simplejson
 import urllib
 
 from pyramid.view import view_config
 
-from ..utils import logprint, jsondump, send, getlast
+from ..utils import logprint, send, getlast
 
 OFFSET = 5
 
