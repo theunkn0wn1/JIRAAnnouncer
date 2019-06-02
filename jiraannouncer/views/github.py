@@ -14,6 +14,10 @@ def github(request):
     """Handle GitHub events."""
     lastmessage = getlast()
     data = request.body
+    if 'X-GitHub-Event' not in request.headers:
+        send("#announcerdev", "[\x0315GitHub\x03] " +
+             "Malformed request to GitHub webhook handler (Missing X-GitHub-Event header)", "Fail!")
+        return
     event = request.headers['X-GitHub-Event']
     try:
         request = simplejson.loads(data)
@@ -39,7 +43,7 @@ def github(request):
                        'name'] + "\x03. \x02\x0311" + request['comment']['html_url'] + "\x02\x03")
     elif event == 'pull_request':
         if 'id' in request['pull_request']['head']['repo'] and request['pull_request']['head'][
-            'repo']['id'] == request['repository']['id']:
+                'repo']['id'] == request['repository']['id']:
             headref = request['pull_request']['head']['ref']
         else:
             headref = request['pull_request']['head']['label']
