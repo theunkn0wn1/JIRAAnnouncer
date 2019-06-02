@@ -6,3 +6,4 @@ def includeme(config):
     config.add_route('travis', '/travis')
     config.add_route('jira', '/jira')
     config.add_route('circle', '/circle')
+    config.add_route('client', '/client')
