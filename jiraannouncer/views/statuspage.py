@@ -24,9 +24,8 @@ statusOptions = {
     'investigating': "(\x0313Investigating\x03)",
     'identified': "(\x0306Identified\x03)",
     'monitoring': "(\x0315Monitoring\x03)",
-    'resolved': "(\x0303Resolved\x03"
+    'resolved': "(\x0303Resolved\x03)"
 }
-
 componentOptions = {
     'degraded_performance': "Degraded performance",
     'major_outage': "Major outage",
@@ -34,6 +33,8 @@ componentOptions = {
     'under_maintenance': "Under maintenance",
     'partial_outage': "Partial outage"
 }
+
+
 @view_config(route_name='statuspage', renderer='json')
 def statuspage(request):
     """Handle StatusPage updates"""
