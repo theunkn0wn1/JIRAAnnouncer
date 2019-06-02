@@ -1,6 +1,7 @@
 import random
 import time
 import simplejson
+import urllib
 
 from pyramid.view import view_config
 
@@ -19,7 +20,7 @@ def travis(request):
         logprint("Error in Travis input, expected \"payload=\"")
         return
     try:
-        request = simplejson.loads(data[8:])
+        request = simplejson.loads(urllib.parse.unquote(data[8:]))
     except:
         logprint("Error loading Travis payload:")
         logprint(data)
