@@ -1,6 +1,10 @@
 import random
 import time
 import simplejson
+import hmac
+
+from hashlib import sha1
+from sys import hexversion
 
 from pyramid.view import view_config
 
@@ -12,12 +16,37 @@ OFFSET = 5
 @view_config(route_name='github', renderer="json")
 def github(request):
     """Handle GitHub events."""
+    settings = request.registry.settings
+    github_secret = settings['github_secret']
     lastmessage = getlast()
     data = request.body
+
     if 'X-GitHub-Event' not in request.headers:
         send("#announcerdev", "[\x0315GitHub\x03] " +
              "Malformed request to GitHub webhook handler (Missing X-GitHub-Event header)", "Fail!")
         return
+
+    if github_secret is not None:
+        header_signature = request.headers['X-Hub-Signature']
+        if header_signature is None:
+            logprint("No signature sent in GitHub event, aborting.")
+            return
+        sha_name, signature = header_signature.split('=')
+        if sha_name != 'sha1':
+            logprint("Signature not in SHA1 format, aborting.")
+            return
+
+        mac = hmac.new(str(github_secret), msg=request.body, digestmod='sha1')
+
+        if hexversion >= 0x020707F0:
+            if not hmac.compare_digest(str(mac.hexdigest()), str(signature)):
+                logprint("Signature mismatch, GitHub event not parsed!")
+                return
+        else:
+            if not str(mac.hexdigest()) == str(signature):
+                logprint("Signature mismatch! GitHub event not parsed.")
+                return
+
     event = request.headers['X-GitHub-Event']
     try:
         request = simplejson.loads(data)
