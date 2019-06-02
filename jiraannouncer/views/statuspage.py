@@ -23,7 +23,8 @@ statusOptions = {
     'verifying': "(\x0311Verifying\x03)",
     'investigating': "(\x0313Investigating\x03)",
     'identified': "(\x0306Identified\x03)",
-    'monitoring': "(\x0315Monitoring\x03)"
+    'monitoring': "(\x0315Monitoring\x03)",
+    'resolved': "(\x0303Resolved\x03"
 }
 
 componentOptions = {
@@ -53,7 +54,7 @@ def statuspage(request):
                    )
     elif data['component_update'] is not None:
         message = (f"[Component: {data['component']['name']}] went from "
-                   f"{componentOptions[data['component_update']['old_status']] or ''} to"
+                   f"{componentOptions[data['component_update']['old_status']] or ''} to "
                    f"{componentOptions[data['component_update']['new_status']] or ''}"
         )
     send("#announcerdev", f"{status_name} {message} {shortlink or ''}", "No shorts today.")
