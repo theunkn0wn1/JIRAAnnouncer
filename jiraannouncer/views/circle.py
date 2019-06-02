@@ -28,7 +28,7 @@ def circle(request):
     if 'compare' not in data:
         if 'all_commit_details' in data:
             compareurl = data['all_commit_details'][0]['commit_url']
-        elif len(data['pull_requests']) > 0:
+        elif 'pull_requests'not in data:
             compareurl = data['pull_requests'][0]['url']
         else:
             compareurl = "\x0302null\x03"
