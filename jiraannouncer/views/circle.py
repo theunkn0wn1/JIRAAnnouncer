@@ -26,7 +26,7 @@ def circle(request):
             channels = ['#rattech']
 
     if 'compare' not in data:
-        if len(data['all_commit_details']) > 0:
+        if 'all_commit_details' in data:
             compareurl = data['all_commit_details'][0]['commit_url']
         elif len(data['pull_requests']) > 0:
             compareurl = data['pull_requests'][0]['url']

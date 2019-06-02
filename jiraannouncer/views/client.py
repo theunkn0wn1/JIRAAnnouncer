@@ -1,10 +1,6 @@
-import random
-import time
-import simplejson
-
 from pyramid.view import view_config
 
-from ..utils import logprint, jsondump, send, getlast, demarkdown
+from ..utils import logprint, send
 
 
 @view_config(route_name='client', renderer="json")
@@ -24,8 +20,10 @@ def client(request):
         return
 
     if 'extradata' not in request.params:
-        message = f"Incoming Client: {cmdrname} - System: {system} - Platform: {platform} - O2: {o2status} - {extradata}"
-    else:
         message = f"Incoming Client: {cmdrname} - System: {system} - Platform: {platform} - O2: {o2status}"
+    else:
+        extradata = request.params['extradata']
+        message = f"Incoming Client: {cmdrname} - System: {system} - Platform: {platform} - O2: {o2status} - {extradata}"
+
     send("#announcerdev", message, "No Short for you!")
     return
