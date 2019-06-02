@@ -12,7 +12,7 @@ OFFSET = 5
 def circle(request):
     """Handle CircleCI events"""
     lastmessage = getlast()
-    data = simplejson.loads(request.body)
+    data = simplejson.loads(request.body)['payload']
     if 'reponame' not in data:
         logprint("No repository name in request!")
         data['reponame'] = "Unset"
@@ -36,13 +36,17 @@ def circle(request):
             compareurl = "\x0302null\x0a3"
     else:
         compareurl = data['compare']
+    message1 = f"""
+                [\x0315CircleCI\x03] \x0306 {data['reponame'] or ''}/{data['reponame'] or ''}
+                 \x03#{data['build_num'] or ''} (\x0306{data['branch'] or ''}\x03 -  
+                 {data['vcs_revision'][:7] or ''} : \x0314 {data['user']['login'] or ''}
+                 \x03: {data['outcome'] or ''}
+                """
+    message2 = f"""
+                [\x0315CircleCI\x03] Change view: \x02\x0311{compareurl}
+                \x02\x03 Build details: \x02\x0311 {data['build_url'] or ''}\x02\x03    
+                """
 
-    message1 = ("[\x0315CircleCI\x03] \x0306" + data['reponame'] + "/" + data['reponame'] +
-                "\x03#" + str(data['build_num']) + " (\x0306" + data['branch'] + "\x03 - " +
-                data['vcs_revision'][:7] + " : \x0314" + data['user']['login'] +
-                "\x03): " + data['outcome'])
-    message2 = ("[\x0315CircleCI\x03] Change view: \x02\x0311" + compareurl +
-                "\x02\x03 Build details: \x02\x0311" + data['build_url'] + "\x02\x03")
     msgshort1 = {"time": time.time(), "type": "Circle", "key": data['reponame'], "full": message1}
     msgshort2 = {"time": time.time(), "type": "Circle", "key": data['reponame'], "full": message2}
     if lastmessage['full'] == message2:
