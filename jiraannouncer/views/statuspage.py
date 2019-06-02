@@ -8,7 +8,7 @@ prefixOptions = {
     'none': "\x0303",
     'major': "\x02\x0304",
     'maintenance': "\x02\x0307",
-    'minor': "\x02x0307"
+    'minor': "\x02\x0307"
 }
 suffixOptions = {
     'none': "\x03",
@@ -52,8 +52,8 @@ def statuspage(request):
                    )
     elif data['component_update'] is not None:
         message = (f"[Component: {data['component']['name']}] went from "
-                   f"{componentOptions[data['component']['component_update']['old_status']] or ''} to"
-                   f"{componentOptions[data['component']['component_update']['new_status']] or ''}"
+                   f"{componentOptions[data['component_update']['old_status']] or ''} to"
+                   f"{componentOptions[data['component_update']['new_status']] or ''}"
         )
     send("#announcerdev", f"{status_name} {message} {shortlink or ''}", "No shorts today.")
     return

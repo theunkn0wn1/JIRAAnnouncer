@@ -20,7 +20,7 @@ def github(request):
     github_secret = settings['github_secret']
     lastmessage = getlast()
     data = request.body
-
+    message = ""
     if 'X-GitHub-Event' not in request.headers:
         send("#announcerdev", "[\x0315GitHub\x03] " +
              "Malformed request to GitHub webhook handler (Missing X-GitHub-Event header)", "Fail!")
