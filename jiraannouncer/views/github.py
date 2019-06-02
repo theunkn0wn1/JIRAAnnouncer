@@ -45,6 +45,7 @@ def github(request):
         else:
             if not str(mac.hexdigest()) == str(signature):
                 logprint("Signature mismatch! GitHub event not parsed.")
+                logprint(f"{mac.hexdigest()} vs {str(signature)}")
                 return
 
     event = request.headers['X-GitHub-Event']
@@ -98,6 +99,7 @@ def github(request):
         logprint("pull request review event:")
         if request['action'] == "commented":
             logprint("Probable duplicate review comment event ignored.")
+            message = ""
             domessage = False
             return
 

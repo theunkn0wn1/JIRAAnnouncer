@@ -12,8 +12,8 @@ def circle(request):
     """Handle CircleCI events"""
     lastmessage = getlast()
 
-    if request['reponame'] == "pipsqueak3":
-        if request['username'] == "FuelRats":
+    if request.params['reponame'] == "pipsqueak3":
+        if request.params['username'] == "FuelRats":
             channels = ['#mechadev']
         else:
             jsondump(request)
@@ -22,23 +22,23 @@ def circle(request):
         channels = ['#rattech']
 
     if request['compare'] is None:
-        if len(request['all_commit_details']) > 0:
-            compareurl = request['all_commit_details'][0]['commit_url']
-        elif len(request['pull_requests']) > 0:
-            compareurl = request['pull_requests'][0]['url']
+        if len(request.params['all_commit_details']) > 0:
+            compareurl = request.params['all_commit_details'][0]['commit_url']
+        elif len(request.params['pull_requests']) > 0:
+            compareurl = request.params['pull_requests'][0]['url']
         else:
             compareurl = "\x0302null\x03"
     else:
-        compareurl = request['compare']
+        compareurl = request.params['compare']
 
-    message1 = ("[\x0315CircleCI\x03] \x0306" + request['reponame'] + "/" + request['reponame'] +
-                "\x03#" + str(request['build_num']) + " (\x0306" + request['branch'] + "\x03 - " +
-                request['vcs_revision'][:7] + " : \x0314" + request['user']['login'] +
-                "\x03): " + request['outcome'])
+    message1 = ("[\x0315CircleCI\x03] \x0306" + request.params['reponame'] + "/" + request.params['reponame'] +
+                "\x03#" + str(request.params['build_num']) + " (\x0306" + request.params['branch'] + "\x03 - " +
+                request.params['vcs_revision'][:7] + " : \x0314" + request.params['user']['login'] +
+                "\x03): " + request.params['outcome'])
     message2 = ("[\x0315CircleCI\x03] Change view: \x02\x0311" + compareurl +
-                "\x02\x03 Build details: \x02\x0311" + request['build_url'] + "\x02\x03")
-    msgshort1 = {"time": time.time(), "type": "Circle", "key": request['reponame'], "full": message1}
-    msgshort2 = {"time": time.time(), "type": "Circle", "key": request['reponame'], "full": message2}
+                "\x02\x03 Build details: \x02\x0311" + request.params['build_url'] + "\x02\x03")
+    msgshort1 = {"time": time.time(), "type": "Circle", "key": request.params['reponame'], "full": message1}
+    msgshort2 = {"time": time.time(), "type": "Circle", "key": request.params['reponame'], "full": message2}
     if lastmessage['full'] == message2:
         logprint("Duplicate message, skipping:")
         logprint(message1)
