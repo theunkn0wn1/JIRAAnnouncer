@@ -136,7 +136,7 @@ def jira(request):
                        user + ".\x03\x02 Status: \x02" + status_colour +
                        data['issue']['fields']['status']['name'] +
                        "\x03\x02. (\x0311\x02https://jira.fuelrats.com/browse/" +
-                       data['issue']['fields']['project']['key'] + "-" + issue_key +
+                       issue_key +
                        "/\x03\x02)")
     elif request_type == 'jira:issue_deleted':
         message = ("Issue Deleted: \x02\x0307" + data['issue']['fields']['issuetype']['name'] +
