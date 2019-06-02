@@ -36,7 +36,7 @@ def github(request):
             logprint("Signature not in SHA1 format, aborting.")
             return
 
-        mac = hmac.new(str(github_secret), msg=request.body, digestmod='sha1')
+        mac = hmac.new(bytes(github_secret, 'utf8'), msg=request.body, digestmod='sha1')
 
         if hexversion >= 0x020707F0:
             if not hmac.compare_digest(str(mac.hexdigest()), str(signature)):
