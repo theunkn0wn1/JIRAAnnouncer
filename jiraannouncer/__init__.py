@@ -1,5 +1,5 @@
 from pyramid.config import Configurator
-from pyramid_scheduler import Scheduler
+#from pyramid_scheduler import Scheduler
 
 
 def main(global_config, **settings):
@@ -9,7 +9,7 @@ def main(global_config, **settings):
     config.include('pyramid_jinja2')
     config.include('.models')
     config.include('.routes')
-    config.include('pyramid_scheduler')
+    #config.include('pyramid_scheduler')
     config.scan()
     return config.make_wsgi_app()
 
