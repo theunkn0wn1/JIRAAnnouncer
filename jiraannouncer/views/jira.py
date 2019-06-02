@@ -46,7 +46,7 @@ def jira(request):
                        " by \x02\x0314" + data['issue']['fields']['reporter'][
                            'displayName'] +
                        "\x02\x03. (\x02\x0311https://jira.fuelrats.com/browse/" +
-                       data['issue']['fields']['project']['key'] + "-" + issue_key +
+                       issue_key +
                        "/\x03\x02)")
         else:
             if 'priority' in data['issue']['fields']:
@@ -58,7 +58,7 @@ def jira(request):
                            data['issue']['fields']['reporter']['displayName'] + ".\x03\x02 \"" +
                            data['issue']['fields']['summary'] +
                            "\". (\x02\x0311https://jira.fuelrats.com/browse/" +
-                           data['issue']['fields']['project']['key'] + "-" + issue_key +
+                           issue_key +
                            "/\x03\x02)")
             else:
                 message = ("Issue Created: \x02\x0307" + data['issue']['fields']['issuetype'][
@@ -68,7 +68,7 @@ def jira(request):
                            data['issue']['fields']['reporter']['displayName'] + ".\x03\x02 \"" +
                            data['issue']['fields']['summary'] +
                            "\". (\x02\x0311https://jira.fuelrats.com/browse/" +
-                           data['issue']['fields']['project']['key'] + "-" + issue_key +
+                           issue_key +
                            "/\x03\x02)")
     elif request_type == 'jira:issue_updated':
         if "OV-" in issue_key or "DRR-" in issue_key:
@@ -97,7 +97,7 @@ def jira(request):
                            data['issue']['fields']['project']['name'] + " by \x02\x0314" +
                            data['user']['displayName'] +
                            "\x02\x03. (\x02\x0311https://jira.fuelrats.com/browse/" +
-                           data['issue']['fields']['project']['key'] + "-" + issue_key +
+                           issue_key +
                            "/\x03\x02)")
         else:
             if 'changelog' in data:
