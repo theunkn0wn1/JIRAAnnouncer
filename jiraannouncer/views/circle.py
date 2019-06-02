@@ -12,16 +12,19 @@ def circle(request):
     """Handle CircleCI events"""
     lastmessage = getlast()
 
-    if request.params['reponame'] == "pipsqueak3":
-        if request.params['username'] == "FuelRats":
-            channels = ['#mechadev']
-        else:
-            jsondump(request)
-            return
+    if 'reponame' not in request.params:
+        logprint("No repository name in request!")
     else:
-        channels = ['#rattech']
+        if request.params['reponame'] == "pipsqueak3":
+            if request.params['username'] == "FuelRats":
+                channels = ['#mechadev']
+            else:
+                jsondump(request)
+                return
+        else:
+            channels = ['#rattech']
 
-    if request['compare'] is None:
+    if request.params['compare'] is None:
         if len(request.params['all_commit_details']) > 0:
             compareurl = request.params['all_commit_details'][0]['commit_url']
         elif len(request.params['pull_requests']) > 0:
