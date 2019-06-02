@@ -15,6 +15,8 @@ def circle(request):
     data = simplejson.loads(request.body)
     if 'reponame' not in data:
         logprint("No repository name in request!")
+        data['reponame'] = "Unset"
+        channels = ['#rattech']
     else:
         if data['reponame'] == "pipsqueak3":
             if data['username'] == "FuelRats":
