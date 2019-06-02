@@ -39,6 +39,7 @@ def statuspage(request):
     if request.body is None:
         logprint("Empty StatusPage request received, aborting.")
         return
+    shortlink = ""
     data = simplejson.loads(request.body)
     status_prefix = prefixOptions[data['page']['status_indicator']]
     status_suffix = suffixOptions[data['page']['status_indicator']]
