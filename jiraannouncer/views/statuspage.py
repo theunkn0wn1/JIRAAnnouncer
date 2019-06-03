@@ -2,7 +2,7 @@ import simplejson
 
 from pyramid.view import view_config
 
-from ..utils import logprint, jsondump, send, getlast, demarkdown
+from ..utils import logprint, send
 
 prefixOptions = {
     'none': "\x0303",
@@ -57,6 +57,8 @@ def statuspage(request):
         message = (f"[Component: {data['component']['name']}] went from "
                    f"{componentOptions[data['component_update']['old_status']] or ''} to "
                    f"{componentOptions[data['component_update']['new_status']] or ''}"
-        )
+                   )
+    else:
+        message = "Something went horribly wrong in Statuspage processing."
     send("#ratchat", f"{status_name} {message} {shortlink or ''}", "No shorts today.")
     return

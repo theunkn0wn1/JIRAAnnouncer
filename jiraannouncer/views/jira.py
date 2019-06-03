@@ -4,7 +4,7 @@ import simplejson
 
 from pyramid.view import view_config
 
-from ..utils import logprint, jsondump, send, getlast
+from ..utils import logprint, send, getlast
 
 OFFSET = 5
 
@@ -49,7 +49,7 @@ def jira(request):
         else:
             if 'priority' in fields:
                 message = (
-                        f"Issue Created: \x02\x0307{['issuetype']['name']}\x02\x03 [\x02\x0306"
+                        f"Issue Created: \x02\x0307{fields['issuetype']['name']}\x02\x03 [\x02\x0306"
                         f"{issue_key}\x03\x02] Priority:{fields['priority']['name']} in \x02"
                         f"{fields['project']['name']}\x02(\x02{fields['project']['key']}\x02) by \x02\x0314"
                         f"{fields['reporter']['displayName']}.\x03\x02 \"{fields['summary']}"

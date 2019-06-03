@@ -2,7 +2,6 @@ import random
 import time
 import simplejson
 import hmac
-import string
 
 from sys import hexversion
 
@@ -126,7 +125,7 @@ def github(request):
         else:
             message = (f"\x0314{request['sender']['login']}\x03 {request['action']} comment on pull request #" 
                        f"{str(request['pull_request']['number'])}: \"{demarkdown(request['comment']['body'])}\""
-                       f"in \x0306{request['repository']['name']}\x03. \x02\x0311{request['comment']['html_url']"
+                       f"in \x0306{request['repository']['name']}\x03. \x02\x0311{request['comment']['html_url']}"
                        f"\x02\x03")
     elif event == 'push':
         if not request['commits']:
@@ -142,7 +141,7 @@ def github(request):
                        f"{request['compare']}\x02\x03")
     elif event == 'commit_comment':
         message = (f"\x0314{request['sender']['login']}\x03 commented on commit \"{request['comment']['commit_id'][:7]}"
-                   f"\" to \x0306{request['repository']['name']}\x03. \x02\x0311" + request['comment']['html_url'] + "\x02\x03")
+                   f"\" to \x0306{request['repository']['name']}\x03. \x02\x0311{request['comment']['html_url']}\x02\x03")
     elif event == 'create':
         if request['ref_type'] == 'tag':
             message = (f"\x0314{request['sender']['login']}\x03 created {request['ref_type']} \"{request['ref']}\""

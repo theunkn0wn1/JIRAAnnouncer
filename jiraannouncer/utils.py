@@ -32,12 +32,12 @@ def demarkdown(string):
 def send(channel, message, msgshort):
     """Send resulting message to IRC over XMLRPC."""
     message = message.replace('\n', ' ').replace('\r', '')
-    PROXY = ServerProxy("https://irc.eu.fuelrats.com:6080/xmlrpc")
+    proxy = ServerProxy("https://irc.eu.fuelrats.com:6080/xmlrpc")
     try:
         messagesplit = [message[i:i + 475] for i in range(0, len(message), 475)]
         for msgpart in messagesplit:
             logprint(time.strftime("[%H:%M:%S]", time.gmtime()) + " Sending to " + channel + "...")
-            logprint(PROXY.command("botserv", "ABish", "say " + channel + " " + msgpart))
+            logprint(proxy.command("botserv", "ABish", "say " + channel + " " + msgpart))
             # logprint(msgpart)
             time.sleep(0.5)
         pickle.dump(msgshort, open("lastmessage.p", "wb"))
@@ -57,6 +57,6 @@ def getlast():
             logprint("Error loading pickle")
             lastmessage = {'type': " ", 'key': " ", 'time': 0, 'full': " "}
     except:
-        logprint("Error loading pickle")
+        logprint("Error loading pickle (Exception)")
         lastmessage = {'type': " ", 'key': " ", 'time': 0, 'full': " "}
     return lastmessage

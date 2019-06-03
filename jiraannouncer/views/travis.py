@@ -25,24 +25,25 @@ def travis(request):
         logprint(data)
         return
 
-    if repo == "FuelRats/pipsqueak3":
+    if "FuelRats/pipsqueak3" in repo:
         channels = ['#mechadev']
     else:
         channels = ['#rattech']
-        message1 = ("[\x0315TravisCI\x03] \x0306" + repo + "\x03#" + request['number'] +
-                    " (\x0306" + request['branch'] + "\x03 - " + request['commit'][:7] +
-                    " : \x0314" + request['author_name'] + "\x03): " + request['result_message'])
-        message2 = ("[\x0315TravisCI\x03] Change view: \x02\x0311" + request['compare_url'] +
-                    "\x02\x03 Build details: \x02\x0311" + request['build_url'] + "\x02\x03")
-        msgshort1 = {"time": time.time(), "type": "Travis", "key": repo, "full": message1}
-        msgshort2 = {"time": time.time(), "type": "Travis", "key": repo, "full": message2}
-        if lastmessage['full'] == message2:
-            logprint("Duplicate message, skipping:")
-            logprint(message1)
-            logprint(message2)
-        else:
-            for channel in channels:
-                send(channel, message1, msgshort1)
-            time.sleep(0.5)
-            for channel in channels:
-                send(channel, message2, msgshort2)
+
+    message1 = ("[\x0315TravisCI\x03] \x0306" + repo + "\x03#" + request['number'] +
+                " (\x0306" + request['branch'] + "\x03 - " + request['commit'][:7] +
+                " : \x0314" + request['author_name'] + "\x03): " + request['result_message'])
+    message2 = ("[\x0315TravisCI\x03] Change view: \x02\x0311" + request['compare_url'] +
+                "\x02\x03 Build details: \x02\x0311" + request['build_url'] + "\x02\x03")
+    msgshort1 = {"time": time.time(), "type": "Travis", "key": repo, "full": message1}
+    msgshort2 = {"time": time.time(), "type": "Travis", "key": repo, "full": message2}
+    if lastmessage['full'] == message2:
+        logprint("Duplicate message, skipping:")
+        logprint(message1)
+        logprint(message2)
+    else:
+        for channel in channels:
+            send(channel, message1, msgshort1)
+        time.sleep(0.5)
+        for channel in channels:
+            send(channel, message2, msgshort2)

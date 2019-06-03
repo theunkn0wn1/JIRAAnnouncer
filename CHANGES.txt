@@ -1,3 +1,17 @@
+1.0 - released 03.06.2019
+---
+
+- Remove static paths for kennels, pickles and logfiles.
+- Fix URL building for issue keys to /browse format.
+- Parse JIRA JSON first...
+- Minor fixes for statuspage.
+- Add Statuspage announcer.
+- Unquote HTML encoding in Travis payload.
+- Use browse URLs for JIRA issues.
+- Clean up, parameter exception handling, language extradata.
+- Add client announcer.
+- Implement GitHub signature verification.
+
 0.0
 ---
 
