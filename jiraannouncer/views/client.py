@@ -25,5 +25,5 @@ def client(request):
         extradata = request.params['extradata']
         message = f"Incoming Client: {cmdrname} - System: {system} - Platform: {platform} - O2: {o2status} - {extradata}"
 
-    send("#announcerdev", message, "No Short for you!")
+    send("#fuelrats", message, "No Short for you!")
     return

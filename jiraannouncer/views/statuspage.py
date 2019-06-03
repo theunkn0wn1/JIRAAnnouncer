@@ -58,5 +58,5 @@ def statuspage(request):
                    f"{componentOptions[data['component_update']['old_status']] or ''} to "
                    f"{componentOptions[data['component_update']['new_status']] or ''}"
         )
-    send("#announcerdev", f"{status_name} {message} {shortlink or ''}", "No shorts today.")
+    send("#ratchat", f"{status_name} {message} {shortlink or ''}", "No shorts today.")
     return
