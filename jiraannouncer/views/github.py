@@ -16,7 +16,7 @@ OFFSET = 5
 def github(request):
     """Handle GitHub events."""
     settings = request.registry.settings
-    github_secret = settings['github_secret']
+    github_secret = settings['github_secret'] if 'github_secret' in settings else None
     lastmessage = getlast()
     data = request.body
     message = ""

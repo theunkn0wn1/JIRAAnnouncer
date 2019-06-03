@@ -6,7 +6,8 @@ from ..utils import logprint, send
 @view_config(route_name='client', renderer="json")
 def client(request):
     """Handle Client arrival announcements."""
-    referer = request.headers['Referer']
+    referer = request.headers['Referer'] if 'referer' in request.headers else None
+
     if referer != "https://clients.fuelrats.com:7778/":
         logprint(f"Client announcer called with invalid referer: {referer}")
         return
