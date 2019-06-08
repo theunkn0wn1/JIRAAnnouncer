@@ -1,6 +1,9 @@
+import time
+
 from pyramid.view import view_config
 
 from ..utils import logprint, send
+from ..models import faillog
 
 
 @view_config(route_name='client', renderer="json")
@@ -18,7 +21,10 @@ def client(request):
         o2status = request.params['EO2']
     except NameError:
         logprint("Missing parameters to Client announcement call.")
-        return
+        model = faillog.FailLog(timestamp=time.time(), headers=request.headers, endpoint="client", body=request.body)
+
+        query = request.dbsession.query(faillog.FailLog)
+
 
     if 'extradata' not in request.params:
         message = f"Incoming Client: {cmdrname} - System: {system} - Platform: {platform} - O2: {o2status}"
