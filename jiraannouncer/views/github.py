@@ -107,8 +107,8 @@ def github(request):
 
         message = (f"\x0314{request['sender']['login']}\x03 {action}\x03 review of \x0314" 
                    f"{request['pull_request']['user']['login']}\x03's pull request #"
-                   f"{str(request['pull_request']['number'])}: \"{demarkdown(request['review']['body'])}\""
-                   f") {request['review']['body'] or ''} in \x0306{request['repository']['name']}\x03. "
+                   f"{str(request['pull_request']['number'])}: \"{demarkdown(request['review']['body'] or '')}\""
+                   f"in \x0306{request['repository']['name']}\x03. "
                    f"\x02\x0311{request['review']['html_url']}\x02\x03")
         logprint(f"Raw message: {message}")
     elif event == 'pull_request_review_comment':
