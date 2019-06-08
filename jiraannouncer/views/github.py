@@ -8,6 +8,7 @@ from sys import hexversion
 from pyramid.view import view_config
 
 from ..utils import logprint, jsondump, send, getlast, demarkdown
+from ..models import githubmodels
 
 OFFSET = 5
 
@@ -23,6 +24,7 @@ def github(request):
     domessage = True
 
     if 'X-GitHub-Event' not in request.headers:
+        logprint("Malformed request to GitHub webhook handler (Missing X-Github-Event)")
         send("#announcerdev",
              "[\x0315GitHub\x03] Malformed request to GitHub webhook handler (Missing X-GitHub-Event header)", "Fail!")
         return
@@ -97,8 +99,10 @@ def github(request):
             return
 
         if request['action'] == "submitted":
+            logprint("Review Submitted")
             action = request['review']['state']
         else:
+            logprint(f"Review action: {request['action']}")
             action = request['action']
 
         message = (f"\x0314{request['sender']['login']}\x03 {action}\x03 review of \x0314" 
@@ -106,7 +110,7 @@ def github(request):
                    f"{str(request['pull_request']['number'])}: \"{demarkdown(request['review']['body'])}\""
                    f") {request['review']['body'] or ''} in \x0306{request['repository']['name']}\x03. "
                    f"\x02\x0311{request['review']['html_url']}\x02\x03")
-        logprint(message)
+        logprint(f"Raw message: {message}")
     elif event == 'pull_request_review_comment':
         if request['comment']['user']['login'] == "houndci-bot":
             message = (f"Style errors found on pull request #{str(request['pull_request']['number'])}: \""
