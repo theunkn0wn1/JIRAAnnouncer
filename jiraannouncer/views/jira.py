@@ -40,7 +40,7 @@ def jira(request):
     fields = data['issue']['fields']
     if request_type == 'jira:issue_created':
         if "OV-" in issue_key or "DRR-" in issue_key:
-            message = (f"\x0307{fields['name']}"
+            message = (f"\x0307{fields['issuetype']['name']}"
                        f"\x03 Created: \x02{fields['summary']}"
                        f"\x02 in {fields['project']['name']}"
                        f" by \x02\x0314{fields['reporter']['displayName']}"
@@ -50,7 +50,7 @@ def jira(request):
             if 'priority' in fields:
                 message = (
                         f"Issue Created: \x02\x0307{fields['issuetype']['name']}\x02\x03 [\x02\x0306"
-                        f"{issue_key}\x03\x02] Priority:{fields['priority']['name']} in \x02"
+                        f"{issue_key}\x03\x02] Priority: {fields['priority']['name']} in \x02"
                         f"{fields['project']['name']}\x02(\x02{fields['project']['key']}\x02) by \x02\x0314"
                         f"{fields['reporter']['displayName']}.\x03\x02 \"{fields['summary']}"
                         f"\". (\x02\x0311https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)")
@@ -135,7 +135,7 @@ def jira(request):
         message = (f"User deleted: \x02\x0307{data['user']['key']}\x02\x03 (\x02\x0311"
                    f"{data['user']['name']}\x02\x03)")
     elif request_type == 'jira:version_created':
-        message = f"Version created: \x02\x0307{data['version']['name']}\x02\x03 of "
+        message = f"Version created: \x02\x0307{data['version']['name']}\x02\x03 {'of' data['pro']}of "
     elif request_type == 'project_created':
         message = (f"Project created: \x02\x0307{data['project']['name']}\x02\x03 [\x02\x0306" 
                    f"{data['project']['key']}\x03\x02] under \x02\x0314{data['project']['projectLead']['key']}"
