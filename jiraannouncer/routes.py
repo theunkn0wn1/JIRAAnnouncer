@@ -7,3 +7,4 @@ def includeme(config):
     config.add_route('circle', '/circle')
     config.add_route('client', '/client')
     config.add_route('statuspage', '/statuspage')
+    config.add_route('updater', '/updater')
