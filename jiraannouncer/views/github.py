@@ -145,7 +145,8 @@ def github(request):
                        f"{request['compare']}\x02\x03")
     elif event == 'commit_comment':
         message = (f"\x0314{request['sender']['login']}\x03 commented on commit \"{request['comment']['commit_id'][:7]}"
-                   f"\" to \x0306{request['repository']['name']}\x03. \x02\x0311{request['comment']['html_url']}\x02\x03")
+                   f"\" to \x0306{request['repository']['name']}\x03. "
+                   f"\x02\x0311{request['comment']['html_url']}\x02\x03")
     elif event == 'create':
         if request['ref_type'] == 'tag':
             message = (f"\x0314{request['sender']['login']}\x03 created {request['ref_type']} \"{request['ref']}\""

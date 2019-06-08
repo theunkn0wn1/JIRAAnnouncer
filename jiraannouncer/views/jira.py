@@ -1,7 +1,7 @@
 import random
 import time
-import simplejson
 
+import simplejson
 from pyramid.view import view_config
 
 from ..utils import logprint, send, getlast
@@ -44,23 +44,22 @@ def jira(request):
                        f"\x03 Created: \x02{fields['summary']}"
                        f"\x02 in {fields['project']['name']}"
                        f" by \x02\x0314{fields['reporter']['displayName']}"
-                       f"\x02\x03. (\x02\x0311https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)"
-                       )
+                       f"\x02\x03. (\x02\x0311https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)")
         else:
             if 'priority' in fields:
                 message = (
-                        f"Issue Created: \x02\x0307{fields['issuetype']['name']}\x02\x03 [\x02\x0306"
-                        f"{issue_key}\x03\x02] Priority: {fields['priority']['name']} in \x02"
-                        f"{fields['project']['name']}\x02(\x02{fields['project']['key']}\x02) by \x02\x0314"
-                        f"{fields['reporter']['displayName']}.\x03\x02 \"{fields['summary']}"
-                        f"\". (\x02\x0311https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)")
+                    f"Issue Created: \x02\x0307{fields['issuetype']['name']}\x02\x03 [\x02\x0306"
+                    f"{issue_key}\x03\x02] Priority: {fields['priority']['name']} in \x02"
+                    f"{fields['project']['name']}\x02(\x02{fields['project']['key']}\x02) by \x02\x0314"
+                    f"{fields['reporter']['displayName']}.\x03\x02 \"{fields['summary']}"
+                    f"\". (\x02\x0311https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)")
             else:
                 message = (
-                        f"Issue Created: \x02\x0307{fields['issuetype']['name']}\x02\x03 [\x02\x0306"
-                        f"{issue_key}\x03\x02] in \x02{fields['project']['name']}\x02(\x02"
-                        f"{fields['project']['key']}\x02) by \x02\x0314{fields['reporter']['displayName']}"
-                        f".\x03\x02 \"{fields['summary']}\". (\x02\x0311https://jira.fuelrats.com/browse/"
-                        f"{issue_key}/\x03\x02)")
+                    f"Issue Created: \x02\x0307{fields['issuetype']['name']}\x02\x03 [\x02\x0306"
+                    f"{issue_key}\x03\x02] in \x02{fields['project']['name']}\x02(\x02"
+                    f"{fields['project']['key']}\x02) by \x02\x0314{fields['reporter']['displayName']}"
+                    f".\x03\x02 \"{fields['summary']}\". (\x02\x0311https://jira.fuelrats.com/browse/"
+                    f"{issue_key}/\x03\x02)")
     elif request_type == 'jira:issue_updated':
         if "OV-" in issue_key or "DRR-" in issue_key:
             if data['user']['displayName'] == "Fuel Rats Automation":
@@ -83,10 +82,10 @@ def jira(request):
                 else:
                     status_colour = "\x0303"
                 message = (
-                        f"\x0307{fields['issuetype']['name']}\x03 {status_colour}{fields['status']['name']}"
-                        f"\x03: \x02{fields['summary']}\x02 in {fields['project']['name']} by \x02\x0314"
-                        f"{data['user']['displayName']}\x02\x03. (\x02\x0311https://jira.fuelrats.com/browse/"
-                        f"{issue_key}/\x03\x02)")
+                    f"\x0307{fields['issuetype']['name']}\x03 {status_colour}{fields['status']['name']}"
+                    f"\x03: \x02{fields['summary']}\x02 in {fields['project']['name']} by \x02\x0314"
+                    f"{data['user']['displayName']}\x02\x03. (\x02\x0311https://jira.fuelrats.com/browse/"
+                    f"{issue_key}/\x03\x02)")
         else:
             if 'changelog' in data:
                 if len(data['changelog']['items']) == 1:
@@ -117,16 +116,16 @@ def jira(request):
                 status_colour = "\x0303"
 
             message = (
-                    f"Issue {update_type} \x02\x0307{fields['issuetype']['name']}\x02\x03 \""
-                    f"{fields['summary']}\" [\x02\x0306{data['issue']['key']}\x03\x02] in \x02" 
-                    f"{fields['project']['name']}\x02(\x02{fields['project']['key']}\x02) by \x0314\x02"
-                    f"{user}.\x03\x02 Status: \x02{status_colour}{fields['status']['name']}\x03\x02. "
-                    f"(\x0311\x02https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)")
+                f"Issue {update_type} \x02\x0307{fields['issuetype']['name']}\x02\x03 \""
+                f"{fields['summary']}\" [\x02\x0306{data['issue']['key']}\x03\x02] in \x02"
+                f"{fields['project']['name']}\x02(\x02{fields['project']['key']}\x02) by \x0314\x02"
+                f"{user}.\x03\x02 Status: \x02{status_colour}{fields['status']['name']}\x03\x02. "
+                f"(\x0311\x02https://jira.fuelrats.com/browse/{issue_key}/\x03\x02)")
     elif request_type == 'jira:issue_deleted':
         message = (
-                f"Issue Deleted: \x02\x0307{fields['issuetype']['name']}\x02\x03 \"{fields['summary']}"
-                f"\" [\x02\x0306{data['issue']['key']}\x03\x02] in \x02{fields['project']['name']}\x02(\x02"
-                f"{fields['project']['key']}\x02) by \x0314\x02{data['user']['displayName']}.\x03\x02")
+            f"Issue Deleted: \x02\x0307{fields['issuetype']['name']}\x02\x03 \"{fields['summary']}"
+            f"\" [\x02\x0306{data['issue']['key']}\x03\x02] in \x02{fields['project']['name']}\x02(\x02"
+            f"{fields['project']['key']}\x02) by \x0314\x02{data['user']['displayName']}.\x03\x02")
     elif request_type == 'user_created':
         message = (f"User created: \x02\x0307{data['user']['key']}\x02\x03 (\x02\x0311"
                    f"{data['user']['emailAddress']}\x02\x03)")
@@ -135,9 +134,9 @@ def jira(request):
         message = (f"User deleted: \x02\x0307{data['user']['key']}\x02\x03 (\x02\x0311"
                    f"{data['user']['name']}\x02\x03)")
     elif request_type == 'jira:version_created':
-        message = f"Version created: \x02\x0307{data['version']['name']}\x02\x03 {'of' data['pro']}of "
+        message = f"Version created: \x02\x0307{data['version']['name']}\x02\x03 of {data['project'] or '<unset>'}"
     elif request_type == 'project_created':
-        message = (f"Project created: \x02\x0307{data['project']['name']}\x02\x03 [\x02\x0306" 
+        message = (f"Project created: \x02\x0307{data['project']['name']}\x02\x03 [\x02\x0306"
                    f"{data['project']['key']}\x03\x02] under \x02\x0314{data['project']['projectLead']['key']}"
                    f"({data['project']['projectLead']['displayName']})")
     elif request_type == 'project_deleted':

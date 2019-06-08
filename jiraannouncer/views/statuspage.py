@@ -1,5 +1,4 @@
 import simplejson
-
 from pyramid.view import view_config
 
 from ..utils import logprint, send
