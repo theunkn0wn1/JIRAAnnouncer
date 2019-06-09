@@ -13,7 +13,12 @@ OFFSET = 5
 def jira(request):
     """Handle JIRA events."""
     lastmessage = getlast()
-    data = simplejson.loads(request.body)
+    try:
+        data = simplejson.loads(request.body)
+    except simplejson.errors.JSONDecodeError:
+        logprint("Failed to decode JSON from body. Dump:")
+        logprint(request.body)
+        return
     request_type = data['webhookEvent']
 
     if 'issue' in data:
