@@ -13,6 +13,7 @@ def circle(request):
     """Handle CircleCI events"""
     lastmessage = getlast()
     data = simplejson.loads(request.body)['payload']
+
     if 'reponame' not in data:
         logprint("No repository name in request!")
         data['reponame'] = "Unset"
