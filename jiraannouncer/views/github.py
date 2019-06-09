@@ -148,7 +148,7 @@ def github(request):
                    f"\" to \x0306{request['repository']['name']}\x03. "
                    f"\x02\x0311{request['comment']['html_url']}\x02\x03")
     elif event == 'create':
-        if request['ref_type'] == 'tag':
+        if request['ref_type'] in {'tag', 'branch'}:
             message = (f"\x0314{request['sender']['login']}\x03 created {request['ref_type']} \"{request['ref']}\""
                        f" in \x0306{request['repository']['name']} \x03.")
         else:
