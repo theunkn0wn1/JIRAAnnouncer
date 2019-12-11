@@ -15,7 +15,8 @@ requires = [
     'pyramid_tm',
     'SQLAlchemy',
     'transaction',
-    'zope.sqlalchemy',
+    # FIXME https://github.com/zopefoundation/zope.sqlalchemy/blob/master/CHANGES.rst#12-2019-10-17
+    'zope.sqlalchemy<1.2',
     'waitress', 'pyramid_scheduler', 'zope', 'simplejson'
 ]
 
@@ -26,7 +27,7 @@ tests_require = [
     ]
 
 setup(name='JIRAAnnouncer',
-      version='0.0',
+      version='2.0.0',
       description='JIRAAnnouncer',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[

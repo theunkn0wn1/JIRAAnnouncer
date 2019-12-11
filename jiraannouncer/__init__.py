@@ -2,6 +2,9 @@ from pyramid.config import Configurator
 #from pyramid_scheduler import Scheduler
 
 
+__version__ = "2.0.0"
+
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
